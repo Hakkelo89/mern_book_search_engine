@@ -1,12 +1,18 @@
 import React from "react";
-import { ApolloProvider } from "@apollo/react-hooks";
-import ApolloClient from "apollo-boost";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import Navbar from "./components/Navbar";
 import SearchBooks from "./pages/SearchBooks";
 import SavedBooks from "./pages/SavedBooks";
 
-const client = new ApolloClient({
+/* const client = new ApolloClient({
   request: (operation) => {
     const token = localStorage.getItem("id_token");
 
@@ -17,10 +23,10 @@ const client = new ApolloClient({
     });
   },
   uri: "/graphql",
-});
+}); */
 
 const httpLink = createHttpLink({
-  uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
+  uri: process.env.GRAPHQL_URL || "http://localhost:3001/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
