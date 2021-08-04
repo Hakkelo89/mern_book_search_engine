@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
 import Auth from "../utils/auth";
-
 import {
   Jumbotron,
   Container,
@@ -11,22 +9,15 @@ import {
   Card,
   CardColumns,
 } from "react-bootstrap";
-
 import { searchGoogleBooks } from "../utils/API";
-
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
-
 import { SAVE_BOOK } from "../utils/mutations";
-
 import { useMutation } from "@apollo/react-hooks";
 
 const SearchBooks = () => {
   const [saveBook, { error }] = useMutation(SAVE_BOOK);
-
   const [searchedBooks, setSearchedBooks] = useState([]);
-
   const [searchInput, setSearchInput] = useState("");
-
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
   useEffect(() => {
@@ -51,18 +42,13 @@ const SearchBooks = () => {
 
       const bookData = items.map((book) => ({
         bookId: book.id,
-
         authors: book.volumeInfo.authors || ["No author to display"],
-
         title: book.volumeInfo.title,
-
         description: book.volumeInfo.description,
-
         image: book.volumeInfo.imageLinks?.thumbnail || "",
       }));
 
       setSearchedBooks(bookData);
-
       setSearchInput("");
     } catch (err) {
       console.error(err);
@@ -98,7 +84,6 @@ const SearchBooks = () => {
       <Jumbotron fluid className="text-light bg-dark">
         <Container>
           <h1>Search for Books!</h1>
-
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
@@ -111,7 +96,6 @@ const SearchBooks = () => {
                   placeholder="Search for a book"
                 />
               </Col>
-
               <Col xs={12} md={4}>
                 <Button type="submit" variant="success" size="lg">
                   Submit Search
@@ -128,7 +112,6 @@ const SearchBooks = () => {
             ? `Viewing ${searchedBooks.length} results:`
             : "Search for a book to begin"}
         </h2>
-
         <CardColumns>
           {searchedBooks.map((book) => {
             return (
@@ -140,14 +123,10 @@ const SearchBooks = () => {
                     variant="top"
                   />
                 ) : null}
-
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-
                   <p className="small">Authors: {book.authors}</p>
-
                   <Card.Text>{book.description}</Card.Text>
-
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedBookIds?.some(

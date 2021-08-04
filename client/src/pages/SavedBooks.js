@@ -11,8 +11,10 @@ import { removeBookId } from "../utils/localStorage";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { REMOVE_BOOK } from "../utils/mutations";
 import { GET_USER } from "../utils/queries";
+
 const SavedBooks = () => {
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+
   const { loading, data } = useQuery(GET_USER);
   const userData = data?.me || {};
 
@@ -22,21 +24,26 @@ const SavedBooks = () => {
     if (!token) {
       return false;
     }
+
     try {
       const { data } = await removeBook({
         variables: { bookId },
       });
+
       if (error) {
         throw new Error("Something went wrong!");
       }
+
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
   };
+
   if (loading) {
     return <h2>LOADING...</h2>;
   }
+
   return (
     <>
       <Jumbotron fluid className="text-light bg-dark">
@@ -82,4 +89,5 @@ const SavedBooks = () => {
     </>
   );
 };
+
 export default SavedBooks;
